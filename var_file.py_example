@@ -1,0 +1,24 @@
+# Your Telegram BOT token
+TOKEN = '0000000000:xyxyxyxyxyxyyxyxyxyxyxyxyxyxyxyxyxy'
+
+# Your Telegram ID's on Whitelist
+ALLOWED_USERS = [123456789,987654321]
+
+# Your public DDNS such as DUckdns, No-IP ... ...
+DDNS_TO_DIG = 'mydomain.duckdns.org'
+
+# You URL that refresh the DDNS
+DNS_URL_REFRESH = 'https://www.duckdns.org/update?domains=<MY_DOMAIN>&token=<MY_DUCKDNS_TOKEN>&ip='
+
+
+# Insert the authoritative DNS of your DDNS domain, so that the IP update will be almost immediate
+# Do not delete the at(@) sign!
+AUTHORITATIVE_DNS = "@1.1.1.1"
+
+
+# Drop your IPTABLES rules here 
+#These will be the PORTS that the server will have open for the whitelisted IP
+IPTABLES_RULES = [
+    "sudo /sbin/iptables -I INPUT 1 -s {ip} -p tcp --dport 80 -j ACCEPT",
+    "sudo /sbin/iptables -I INPUT 1 -s {ip} -p udp --dport 443 -j ACCEPT"
+]
