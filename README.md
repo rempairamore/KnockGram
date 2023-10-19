@@ -6,6 +6,7 @@ TGknock-bot is a Telegram bot utility designed as a modern and more convenient a
 - [Features](#features)
 - [Prerequisites](#prerequisites)
 - [Quick Start](#quick-start)
+- [Interacting with the Telegram Bot](#interacting-with-the-telegram-bot)
 - [Manual Configuration](#manual-configuration)
 - [Running TGknock-bot as a Systemd Service](#running-tgknock-bot-as-a-systemd-service)
   
@@ -50,6 +51,30 @@ This will guide you through the necessary steps, including setting up the `var_f
 ```bash
 python3 main_script.py
 ```
+
+## Interacting with the Telegram Bot
+
+To interact with the Telegram bot, follow these steps:
+
+1. **Opening Telegram**: Launch the Telegram application on your device.
+2. **Accessing the Bot**: Search for and access the bot you've configured.
+3. **Starting the Bot**: Initiate the conversation with the bot (/start).
+4. You'll be presented with the message:
+   > "Click a button to perform an action:"
+   
+5. **Updating Your IP Address**:
+   - Click on the "Update IP for door knocking" button.
+   - Next, click on "Share public IP". This will open a new browser page to update the DDNS with your IP address.
+   - Return to your Telegram bot and click on "Refresh".
+   
+6. **Performing the Knock**:
+   - Click on "Knock Door w/<your_IP>".
+   - Wait for the bot's response. After a few seconds, the bot will correctly open the previously configured ports.
+
+
+<a href="https://i.imgur.com/ZLFqkTl.png">
+    <img src="https://i.imgur.com/ZLFqkTl.png" alt="TELEGRAM BOT" width=50%/>
+</a>
 
 ## Manual Configuration
 
