@@ -294,4 +294,4 @@ if whiptail --title "Configuration" --yesno "Would you like to set up the Telegr
     fi
 fi
 
-whiptail --title "Script Configuration" --msgbox "You can now launch the Python script using the following command:\n\npython3 main_script.py" 10 70
+whiptail --title "Script Configuration" --msgbox "You can now launch the Python script using the following command:\n\npython3 main.py" 10 70

@@ -1,6 +1,6 @@
-# TGknock-bot
+# KnockGram
 
-TGknock-bot is a Telegram bot utility designed as a modern and more convenient alternative to the traditional terminal-based door knocking technique. By leveraging Telegram as the interface, users can update IP addresses and execute door knocking remotely with ease, all within the familiar environment of a chat app.
+KnockGram is a Telegram bot utility designed as a modern and more convenient alternative to the traditional terminal-based door knocking technique. By leveraging Telegram as the interface, users can update IP addresses and execute door knocking remotely with ease, all within the familiar environment of a chat app.
 
 ## Table of Contents
 - [Features](#features)
@@ -8,7 +8,7 @@ TGknock-bot is a Telegram bot utility designed as a modern and more convenient a
 - [Quick Start](#quick-start)
 - [Interacting with the Telegram Bot](#interacting-with-the-telegram-bot)
 - [Manual Configuration](#manual-configuration)
-- [Running TGknock-bot as a Systemd Service](#running-tgknock-bot-as-a-systemd-service)
+- [Running KnockGram as a Systemd Service](#running-KnockGram-as-a-systemd-service)
   
 ## Features
 
@@ -29,19 +29,19 @@ TGknock-bot is a Telegram bot utility designed as a modern and more convenient a
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/rempairamore/TGknock-bot.git
+git clone https://github.com/rempairamore/KnockGram.git
 ```
 
 2. Navigate into the cloned directory:
 
 ```bash
-cd TGknock-bot
+cd KnockGram
 ```
 
 3. Use the provided setup script for guided configuration:
 
 ```bash
-bash script_setup.sh
+bash setup.sh
 ```
 
 This will guide you through the necessary steps, including setting up the `var_file.py` from the provided `var_file.py_example`.
@@ -49,7 +49,7 @@ This will guide you through the necessary steps, including setting up the `var_f
 4. Start the bot:
 
 ```bash
-python3 main_script.py
+python3 main.py
 ```
 
 ## Interacting with the Telegram Bot
@@ -78,7 +78,7 @@ To interact with the Telegram bot, follow these steps:
 
 ## Manual Configuration
 
-Before running the script, you'll need to configure some variables in the `var_file.py` (use the `var_file.py_example` as a template). You can either manually edit this file or use the provided `script_setup.sh` for a guided configuration.
+Before running the script, you'll need to configure some variables in the `var_file.py` (use the `var_file.py_example` as a template). You can either manually edit this file or use the provided `setup.sh` for a guided configuration.
 
 Here's a brief overview of the variables:
 
@@ -91,29 +91,29 @@ Here's a brief overview of the variables:
 
 Ensure you replace placeholders in `var_file.py` with actual values.
 
-## Running TGknock-bot as a Systemd Service
+## Running KnockGram as a Systemd Service
 
-Systemd is a system and session manager for Linux, which allows you to manage and configure services. By setting up TGknock-bot as a systemd service, you can ensure that the bot automatically starts every time your server boots.
+Systemd is a system and session manager for Linux, which allows you to manage and configure services. By setting up KnockGram as a systemd service, you can ensure that the bot automatically starts every time your server boots.
 
 ### Creating the Systemd Service
 
-1. Create a systemd service file for TGknock-bot:
+1. Create a systemd service file for KnockGram:
 
 ```bash
-sudo nano /etc/systemd/system/tgknock-bot.service
+sudo nano /etc/systemd/system/KnockGram.service
 ```
 
 2. Paste the following configuration into the editor:
 
 ```
 [Unit]
-Description=TGknock-bot Service
+Description=KnockGram Service
 After=network.target
 
 [Service]
 Type=simple
-WorkingDirectory=/path/to/TGknock-bot
-ExecStart=/usr/bin/python3 /path/to/TGknock-bot/main_script.py
+WorkingDirectory=/path/to/KnockGram
+ExecStart=/usr/bin/python3 /path/to/KnockGram/main.py
 Restart=on-failure
 User=YOUR_USERNAME
 Group=YOUR_GROUP
@@ -122,7 +122,7 @@ Group=YOUR_GROUP
 WantedBy=multi-user.target
 ```
 
-Replace `/path/to/TGknock-bot` with the absolute path to the TGknock-bot directory. Also, replace `YOUR_USERNAME` and `YOUR_GROUP` with the username and group under which you want to run the bot.
+Replace `/path/to/KnockGram` with the absolute path to the KnockGram directory. Also, replace `YOUR_USERNAME` and `YOUR_GROUP` with the username and group under which you want to run the bot.
 
 3. Reload the systemd manager configuration:
 
@@ -130,16 +130,16 @@ Replace `/path/to/TGknock-bot` with the absolute path to the TGknock-bot directo
 sudo systemctl daemon-reload
 ```
 
-4. Start the TGknock-bot service:
+4. Start the KnockGram service:
 
 ```bash
-sudo systemctl start tgknock-bot
+sudo systemctl start KnockGram
 ```
 
-5. Optionally, enable the TGknock-bot service to start on boot:
+5. Optionally, enable the KnockGram service to start on boot:
 
 ```bash
-sudo systemctl enable tgknock-bot
+sudo systemctl enable KnockGram
 ```
 
 ### Checking the Service Status
@@ -147,7 +147,7 @@ sudo systemctl enable tgknock-bot
 To monitor the service's status, use:
 
 ```bash
-sudo systemctl status tgknock-bot
+sudo systemctl status KnockGram
 ```
 
 ## Tested Environments
