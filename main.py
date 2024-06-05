@@ -43,6 +43,12 @@ def get_dig_ip():
             dig_command = f"sudo /usr/bin/nmcli general reload dns-full && dig +short {DDNS_TO_DIG} {AUTHORITATIVE_DNS}"
         elif subprocess.getstatusoutput("command -v resolvectl")[0] == 0:
             dig_command = f"sudo /usr/bin/resolvectl flush-caches && dig +short {DDNS_TO_DIG} {AUTHORITATIVE_DNS}"
+        elif subprocess.getstatusoutput("command -v ifup")[0] == 0:
+            dig_command = f"sudo /sbin/ifup --force && dig +short {DDNS_TO_DIG} {AUTHORITATIVE_DNS}"
+        elif subprocess.getstatusoutput("command -v networkctl")[0] == 0:
+            dig_command = f"sudo /usr/bin/networkctl reload && dig +short {DDNS_TO_DIG} {AUTHORITATIVE_DNS}"
+        elif subprocess.getstatusoutput("command -v netplan")[0] == 0:
+            dig_command = f"sudo /usr/sbin/netplan apply && dig +short {DDNS_TO_DIG} {AUTHORITATIVE_DNS}"
         else:
             print("No recognized network manager. This script is not compatible.")
             exit(5)

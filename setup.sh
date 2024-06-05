@@ -90,7 +90,7 @@ if ! {
     sudo usermod -aG telegrambot $(whoami)
 
     # Grant NOPASSWD for specific commands to the telegrambot group
-    sudo bash -c 'echo "%telegrambot ALL=(ALL) NOPASSWD: /sbin/iptables,/usr/bin/resolvectl,/usr/sbin/iptables-save,/usr/bin/nmcli" > /etc/sudoers.d/66-telegram-bot'
+    sudo bash -c 'echo "%telegrambot ALL=(ALL) NOPASSWD: /sbin/iptables,/usr/bin/resolvectl,/usr/sbin/iptables-save,/usr/bin/nmcli,/sbin/ifup,/usr/bin/networkctl,/usr/sbin/netplan" > /etc/sudoers.d/66-telegram-bot'
 
     # Check network manager
     if [ -x "$(command -v nmcli)" ]; then
@@ -105,6 +105,24 @@ if ! {
         if ! sudo -n /sbin/iptables -L &>/dev/null || ! sudo -n /usr/bin/resolvectl &>/dev/null; then 
             whiptail --title "Error" --msgbox "Error setting up sudo permissions." 10 50
             exit 23
+        fi
+    elif [ -x "$(command -v ifup)" ]; then
+        echo "ifupdown is active." > /dev/null
+        if ! sudo -n /sbin/iptables -L &>/dev/null || ! sudo -n /sbin/ifup &>/dev/null; then 
+            whiptail --title "Error" --msgbox "Error setting up sudo permissions." 10 50
+            exit 24
+        fi
+    elif [ -x "$(command -v networkctl)" ]; then
+        echo "systemd-networkd is active." > /dev/null
+        if ! sudo -n /sbin/iptables -L &>/dev/null || ! sudo -n /usr/bin/networkctl &>/dev/null; then 
+            whiptail --title "Error" --msgbox "Error setting up sudo permissions." 10 50
+            exit 25
+        fi
+    elif [ -x "$(command -v netplan)" ]; then
+        echo "netplan is active." > /dev/null
+        if ! sudo -n /sbin/iptables -L &>/dev/null || ! sudo -n /usr/sbin/netplan &>/dev/null; then 
+            whiptail --title "Error" --msgbox "Error setting up sudo permissions." 10 50
+            exit 26
         fi
     else
         echo "No recognized network manager detected. This script is incompatible."
@@ -264,7 +282,7 @@ fi
 # Ask if the user wants to set up the Telegram BOT and DDNS information
 if whiptail --title "Configuration" --yesno "Would you like to set up the Telegram BOT and DDNS information now?" 10 40; then
     # Prompt for Telegram BOT token
-    TOKEN=$(whiptail --title "Configuration" --inputbox "Enter your Telegram BOT token:\n\ne.g. 0000000000:xyxyxyxyxyxyyxyxyxyxyxyxyxyxyxyxyxy" 13 55 --title "Telegram BOT Token" --cancel-button "Add Later" 3>&1 1>&2 2>&3)
+    TOKEN=$(whiptail --title "Configuration" --inputbox "Enter your Telegram BOT token:\n\ne.g. 0000000000:xyxyxyxyxyxyyxyxyxyxyxyxyxyxyxyxy" 13 55 --title "Telegram BOT Token" --cancel-button "Add Later" 3>&1 1>&2 2>&3)
     if [ -n "$TOKEN" ]; then
         echo "TOKEN = '$TOKEN'" >> "$VAR_FILE"
     fi
