@@ -49,6 +49,7 @@ This will guide you through the necessary steps, including setting up the `var_f
 4. Start the bot:
 
 ```bash
+pip3 install -r requirements.txt
 python3 main.py
 ```
 

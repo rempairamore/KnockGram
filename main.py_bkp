@@ -72,17 +72,13 @@ def change_ip(ip):
         iptables_commands = IPTABLES_RULES
         iptables_commands = [cmd.format(ip=ip) for cmd in iptables_commands]
         iptables_commands = " && ".join(iptables_commands)
-        print(f"Executing iptables commands: {iptables_commands}")
         iptables_output = execute_ssh_command(iptables_commands)
-        print(f"iptables command output: {iptables_output}")
         return iptables_output if 'Error' not in iptables_output else f"Error: {iptables_output}"
     except Exception as e:
-        print(f"Exception occurred while changing IP: {e}")
         return f"Exception occurred: {e}"
 
 # Variable to store the guest IP
 GUEST_IP = get_dig_ip()
-print(f"Initial GUEST_IP: {GUEST_IP}")
 
 # Handlers
 @bot.message_handler(commands=['start', 'help'])
@@ -106,7 +102,6 @@ def change_ip_handler(message):
     if user_id in ALLOWED_USERS:
         try:
             ip_address = message.text.split()[1]
-            print(f"Received /changeIP command with IP: {ip_address}")
             result = change_ip(ip_address)
             if 'Error' in result or 'Exception' in result:
                 bot.send_message(message.chat.id, f"Failed to update IP: {result}")
@@ -134,7 +129,6 @@ def handle_inline_buttons(call):
             bot.answer_callback_query(call.id, text='✊✊ Knock knock... Who\'s there? 🚪')
             time.sleep(1)
             ip = get_dig_ip()
-            print(f"Retrieved IP for knocking: {ip}")
             if ip:
                 iptables_commands = IPTABLES_RULES
                 iptables_commands = [cmd.format(ip=ip) for cmd in iptables_commands]
@@ -148,10 +142,7 @@ def handle_inline_buttons(call):
                 send_message_with_emoji_and_refresh(user_id, "Unable to get public IP address at the moment.", '❗️')
         elif call.data == 'refresh':
             GUEST_IP = get_dig_ip()
-            print(f"Refreshed GUEST_IP: {GUEST_IP}")
             send_inline_buttons(call.message.chat.id)
 
 # Start the bot
-print("Starting bot polling...")
 bot.polling()
-
