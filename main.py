@@ -17,7 +17,9 @@ bot = telebot.TeleBot(TOKEN)
 
 # Functions
 def execute_ssh_command(command):
+    print(f"Executing command: {command}")
     status, output = subprocess.getstatusoutput(command)
+    print(f"Command output: {output}")
     return output if status == 0 else f"Error: {output}"
 
 def send_message_with_emoji_and_refresh(chat_id, text, emoji):
@@ -53,12 +55,16 @@ def get_dig_ip():
             print("No recognized network manager. This script is not compatible.")
             exit(5)
 
+        print(f"Executing dig command: {dig_command}")
         status, output = subprocess.getstatusoutput(dig_command)
+        print(f"dig command output: {output}")
         if status == 0 and output:
             return output.strip()
+        else:
+            print(f"Failed to get IP with status {status}: {output}")
 
     except Exception as e:
-        print(e)
+        print(f"Exception occurred: {e}")
     return None
 
 # Variable to store the guest IP
