@@ -67,6 +67,16 @@ def get_dig_ip():
         print(f"Exception occurred: {e}")
     return None
 
+def change_ip(ip):
+    try:
+        iptables_commands = IPTABLES_RULES
+        iptables_commands = [cmd.format(ip=ip) for cmd in iptables_commands]
+        iptables_commands = " && ".join(iptables_commands)
+        iptables_output = execute_ssh_command(iptables_commands)
+        return iptables_output if 'Error' not in iptables_output else f"Error: {iptables_output}"
+    except Exception as e:
+        return f"Exception occurred: {e}"
+
 # Variable to store the guest IP
 GUEST_IP = get_dig_ip()
 
@@ -75,7 +85,30 @@ GUEST_IP = get_dig_ip()
 def send_welcome(message):
     user_id = message.from_user.id
     if user_id in ALLOWED_USERS:
+        help_text = (
+            "Welcome to the bot! Here are the available commands:\n"
+            "/start - Show the welcome message and available options.\n"
+            "/help - Show this help message.\n"
+            "/changeIP <ip_address> - Change the IP address and update iptables rules."
+        )
+        bot.send_message(message.chat.id, help_text)
         send_inline_buttons(message.chat.id)
+    else:
+        bot.send_message(message.chat.id, text='Unauthorized user.')
+
+@bot.message_handler(commands=['changeIP'])
+def change_ip_handler(message):
+    user_id = message.from_user.id
+    if user_id in ALLOWED_USERS:
+        try:
+            ip_address = message.text.split()[1]
+            result = change_ip(ip_address)
+            if 'Error' in result or 'Exception' in result:
+                bot.send_message(message.chat.id, f"Failed to update IP: {result}")
+            else:
+                bot.send_message(message.chat.id, f"IP address {ip_address} added to whitelist.")
+        except IndexError:
+            bot.send_message(message.chat.id, "Usage: /changeIP <ip_address>")
     else:
         bot.send_message(message.chat.id, text='Unauthorized user.')
 
